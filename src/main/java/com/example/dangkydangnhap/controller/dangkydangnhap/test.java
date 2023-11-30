@@ -48,7 +48,7 @@ public class test{
         System.out.println(selectNK);
         selectNK.ifPresent(nhanKhau -> System.out.println(nhanKhau.getThongTinNhanKhau().getNgaySinh()));
 
-        System.out.println(functionHelp.kiemTraThongTinDangKy(soCCCD, hoTen, ngaySinh,idHoKhau));
+        System.out.println(functionHelp.kiemTraThongTinDangKy(soCCCD, hoTen, ngaySinh));
 
 //        List<NhanKhau> dsnk = new ArrayList<>();
 //        PreparedStatement statementdsnk = connection.prepareStatement("SELECT * FROM nhankhau");

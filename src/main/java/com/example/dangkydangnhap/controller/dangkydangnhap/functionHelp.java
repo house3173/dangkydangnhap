@@ -69,10 +69,9 @@ public class functionHelp {
      * @param soCccdDK số CCCD của người đăng ký
      * @param hoTenDK họ tên người đăng ký
      * @param ngaySinhDK ngày sinh của người đăng ký
-     * @param idHoKhauDK số sổ hộ khẩu của người đăng ký
      * @return true/false Kiem tra thong tin cua nguoi dang ky
      */
-    public static Boolean kiemTraThongTinDangKy(String soCccdDK, String hoTenDK, String ngaySinhDK, String idHoKhauDK) throws SQLException {
+    public static Boolean kiemTraThongTinDangKy(String soCccdDK, String hoTenDK, String ngaySinhDK) throws SQLException {
 
         // Lấy thông tin từ cơ sở dữ liệu đối chiếu
         NhanKhau nhankhau = new NhanKhau();
@@ -92,12 +91,6 @@ public class functionHelp {
                 return false;
             }
 
-            // kiem tra truong idHoKhau
-            int idHKInt = nhankhau.getThongTinNhanKhau().getIdHoKhau();
-            String idHKString = functionHelp.intToString(idHKInt);
-            if(!idHKString.equals(idHoKhauDK)) {
-                return false;
-            }
         } else {
             return false;
         }

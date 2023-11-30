@@ -49,10 +49,9 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
-                <TextField fx:id="hoTenMK" layoutX="43.0" layoutY="37.0" prefHeight="32.0" prefWidth="155.0" promptText="Họ tên" />
-                <TextField fx:id="idHoKhauMK" layoutX="372.0" layoutY="37.0" prefHeight="32.0" prefWidth="105.0" promptText="ID Hộ khẩu" />
-                <DatePicker fx:id="ngaySinhMK" layoutX="227.0" layoutY="37.0" prefHeight="32.0" prefWidth="117.0" promptText="Ngày sinh" />
-                <Button layoutX="501.0" layoutY="37.0" mnemonicParsing="false" onAction="#tiepTucThayDoi" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Tiếp tục" textFill="#4e8cde">
+                <TextField fx:id="hoTenMK" layoutX="43.0" layoutY="37.0" prefHeight="32.0" prefWidth="179.0" promptText="Họ tên" />
+                <DatePicker fx:id="ngaySinhMK" layoutX="260.0" layoutY="37.0" prefHeight="32.0" prefWidth="135.0" promptText="Ngày sinh" />
+                <Button layoutX="432.0" layoutY="37.0" mnemonicParsing="false" onAction="#tiepTucThayDoi" prefHeight="32.0" prefWidth="69.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Tiếp tục" textFill="#4e8cde">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -62,54 +61,53 @@
         </AnchorPane>
         <AnchorPane fx:id="vungMKmoi" layoutY="233.0" prefHeight="152.0" prefWidth="603.0">
             <children>
-                <Text fill="#444444" layoutX="20.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhập mật khẩu mới:">
+                <Text fill="#444444" layoutX="20.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhập mật khẩu mới:">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
-                <TextField fx:id="MKmoi" layoutX="39.0" layoutY="50.0" prefHeight="32.0" prefWidth="221.0" />
-                <Text fill="#444444" layoutX="327.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhập lại mật khẩu:">
+                <TextField fx:id="MKmoi" layoutX="39.0" layoutY="47.0" prefHeight="32.0" prefWidth="221.0" />
+                <Text fill="#444444" layoutX="327.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhập lại mật khẩu:">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
-                <TextField fx:id="MKmoiNhapLai" layoutX="346.0" layoutY="50.0" prefHeight="32.0" prefWidth="221.0" />
-                <PasswordField fx:id="MKmoiHidden" layoutX="39.0" layoutY="50.0" prefHeight="32.0" prefWidth="221.0" />
-                <PasswordField fx:id="MKmoiNhapLaiHidden" layoutX="346.0" layoutY="50.0" prefHeight="32.0" prefWidth="221.0" />
-                <CheckBox fx:id="boxMKmoi" layoutX="238.0" layoutY="57.0" mnemonicParsing="false" onAction="#checkboxHiddenMKmoi" />
-                <CheckBox fx:id="boxMKmoiNhapLai" layoutX="544.0" layoutY="57.0" mnemonicParsing="false" onAction="#checkboxHiddenMKmoiNhapLai" />
-                <Button layoutX="237.0" layoutY="95.0" mnemonicParsing="false" onAction="#xacNhanMatKhau" prefHeight="32.0" prefWidth="127.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Thay đổi mật khẩu" textFill="#4e8cde">
+                <TextField fx:id="MKmoiNhapLai" layoutX="346.0" layoutY="47.0" prefHeight="32.0" prefWidth="221.0" />
+                <PasswordField fx:id="MKmoiHidden" layoutX="39.0" layoutY="47.0" prefHeight="32.0" prefWidth="221.0" />
+                <PasswordField fx:id="MKmoiNhapLaiHidden" layoutX="346.0" layoutY="47.0" prefHeight="32.0" prefWidth="221.0" />
+                <CheckBox fx:id="boxMKmoi" layoutX="238.0" layoutY="55.0" mnemonicParsing="false" onAction="#checkboxHiddenMKmoi" />
+                <CheckBox fx:id="boxMKmoiNhapLai" layoutX="544.0" layoutY="55.0" mnemonicParsing="false" onAction="#checkboxHiddenMKmoiNhapLai" />
+                <Button layoutX="237.0" layoutY="101.0" mnemonicParsing="false" onAction="#xacNhanMatKhau" prefHeight="32.0" prefWidth="127.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Thay đổi mật khẩu" textFill="#4e8cde">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Text fx:id="errorPassword" fill="RED" layoutX="1.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="lỗi mật khẩu" textAlignment="CENTER" wrappingWidth="601.3333333333331" />
+                <Text fx:id="errorPassword" fill="RED" layoutX="1.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="601.3333333333331" />
             </children>
         </AnchorPane>
-      <AnchorPane layoutY="160.0" prefHeight="92.0" prefWidth="601.0">
+      <AnchorPane fx:id="vungXacNhan" layoutX="1.0" layoutY="166.0" prefHeight="75.0" prefWidth="601.0">
          <children>
-            <Text fill="#444444" layoutX="17.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Câu hỏi xác nhận:">
+            <Text fill="#444444" layoutX="17.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Câu hỏi xác nhận:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text fill="#444444" layoutX="43.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên tài khoản của bạn là gì?">
+            <Text fx:id="cauhoi" fill="#444444" layoutX="133.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên tài khoản của bạn là gì?" wrappingWidth="352.31573486328125">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Text>
-            <Text fill="#444444" layoutX="291.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Đây là câu hỏi xác nhận thứ hai ?">
-               <font>
-                  <Font name="System Italic" size="12.0" />
-               </font>
-            </Text>
-            <TextField layoutX="42.0" layoutY="53.0" prefHeight="32.0" prefWidth="165.0" />
-            <TextField layoutX="291.0" layoutY="53.0" prefHeight="32.0" prefWidth="174.0" />
-            <Button layoutX="492.0" layoutY="53.0" mnemonicParsing="false" onAction="#tiepTucThayDoi" prefHeight="32.0" prefWidth="79.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Xác nhận" textFill="#4e8cde">
+            <TextField fx:id="cautraloi" layoutX="42.0" layoutY="39.0" prefHeight="32.0" prefWidth="321.0" />
+            <Button layoutX="389.0" layoutY="39.0" mnemonicParsing="false" onAction="#xacNhanTraLoi" prefHeight="32.0" prefWidth="79.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Xác nhận" textFill="#4e8cde">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+            <Text fx:id="loiXacNhan" fill="RED" layoutX="391.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
     </children>

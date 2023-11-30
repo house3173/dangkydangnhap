@@ -51,7 +51,7 @@
                       <Font name="System Bold" size="13.0" />
                   </font>
               </Text>
-            <ComboBox fx:id="cauhoixacnhan" layoutX="147.0" layoutY="74.0283203125" prefHeight="30.0" prefWidth="293.0" promptText="chọn câu hỏi xác nhận" />
+            <ComboBox fx:id="cauhoixacnhan" layoutX="147.0" layoutY="74.0283203125" maxHeight="90.0" prefHeight="30.0" prefWidth="293.0" promptText="chọn câu hỏi xác nhận" />
             <TextField fx:id="cautraloi" layoutX="147.0" layoutY="119.0283203125" prefHeight="31.0" prefWidth="137.0" promptText="Câu trả lời xác nhận" />
          </children>
       </AnchorPane>
@@ -66,10 +66,15 @@
                 <Font name="System Bold" size="13.0" />
             </font>
         </Text>
-      <Button layoutX="373.0" layoutY="139.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="69.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Tiếp tục" textFill="#4e8cde">
+      <Button layoutX="373.0" layoutY="139.0" mnemonicParsing="false" onAction="#tiepTucClick" prefHeight="30.0" prefWidth="69.0" style="-fx-background-color: #ffffff; -fx-background-radius: 6px; -fx-border-color: #4e8cde; -fx-border-radius: 6px;" text="Tiếp tục" textFill="#4e8cde">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <Text fx:id="loiThongTin" fill="RED" layoutX="72.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="368.6666463216145">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>

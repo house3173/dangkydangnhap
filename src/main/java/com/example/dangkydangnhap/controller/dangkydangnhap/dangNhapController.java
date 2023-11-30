@@ -59,7 +59,7 @@ public class dangNhapController implements Initializable {
     public void signUp (ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/com/example/dangkydangnhap/view/dangkydangnhap/dangKy.fxml"));
+        loader.setLocation(getClass().getResource("/com/example/dangkydangnhap/view/dangkydangnhap/dangKyOffical.fxml"));
         Parent dangky = loader.load();
         Scene scene = new Scene(dangky);
         stage.setScene(scene);
@@ -73,7 +73,7 @@ public class dangNhapController implements Initializable {
     public void quenMatKhau (ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/com/example/dangkydangnhap/view/dangkydangnhap/thayDoiMatKhau.fxml"));
+        loader.setLocation(getClass().getResource("/com/example/dangkydangnhap/view/dangkydangnhap/quenMatKhau.fxml"));
         Parent dangky = loader.load();
         Scene scene = new Scene(dangky);
         stage.setScene(scene);

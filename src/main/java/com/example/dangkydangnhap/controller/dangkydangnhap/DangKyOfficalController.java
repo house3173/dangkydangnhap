@@ -1,8 +1,14 @@
 package com.example.dangkydangnhap.controller.dangkydangnhap;
 
+import com.example.dangkydangnhap.dao.CauHoiDAO;
+import com.example.dangkydangnhap.dao.CauTraLoiDAO;
 import com.example.dangkydangnhap.dao.TaiKhoanNhanKhauDAO;
 import com.example.dangkydangnhap.database.SqlConnection;
+import com.example.dangkydangnhap.model.CauHoi;
+import com.example.dangkydangnhap.model.CauTraLoi;
 import com.example.dangkydangnhap.model.TaiKhoanNhanKhau;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +28,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -39,9 +47,6 @@ public class DangKyOfficalController implements Initializable {
     private TextField hoTen;
 
     @FXML
-    private TextField idHoKhau;
-
-    @FXML
     private TextField matKhau;
 
     @FXML
@@ -57,10 +62,39 @@ public class DangKyOfficalController implements Initializable {
     private Text textError;
     @FXML
     private AnchorPane thongTinTaiKhoan;
+    @FXML
+    private Text loiThongTin;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        //ngaySinh.setEditable(false);
+        thongTinTaiKhoan.setVisible(false);
+        soCccd.textProperty().addListener((observable, oldValue, newValue) -> {
+            thongTinTaiKhoan.setVisible(false);
+        });
+        hoTen.textProperty().addListener((observable, oldValue, newValue) -> {
+            thongTinTaiKhoan.setVisible(false);
+        });
+        ngaySinh.valueProperty().addListener((observable, oldValue, newValue) -> {
+            thongTinTaiKhoan.setVisible(false);
+        });
 
+        try {
+            setForComboBox();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void setForComboBox() throws SQLException {
+        ObservableList<String> questionList = FXCollections.observableArrayList();
+        CauHoiDAO cauhoiDao = new CauHoiDAO(connection);
+        List<CauHoi> danhSachCauHoi = cauhoiDao.getAll();
+        for(CauHoi cauhoi : danhSachCauHoi) {
+            questionList.add(cauhoi.getNoiDungCauHoi());
+        }
+        cauhoixacnhan.setItems(questionList);
     }
 
     /**
@@ -74,9 +108,8 @@ public class DangKyOfficalController implements Initializable {
         String hotenDK = hoTen.getText();
         String ngaysinhDK = ngaySinh.getValue().toString();
         String socccdDK = soCccd.getText();
-        String idhokhauDK = idHoKhau.getText();
 
-        return functionHelp.kiemTraThongTinDangKy(socccdDK, hotenDK, ngaysinhDK, idhokhauDK);
+        return functionHelp.kiemTraThongTinDangKy(socccdDK, hotenDK, ngaysinhDK);
     }
 
     /**
@@ -86,12 +119,15 @@ public class DangKyOfficalController implements Initializable {
      */
     public void signUpSuccess (ActionEvent e) throws Exception {
         // Lưu thông tin tài khoản vào bảng taikhoan
-
         TaiKhoanNhanKhau tknk = new TaiKhoanNhanKhau(soCccd.getText(), tenTaiKhoan.getText(), matKhau.getText());
-        Connection connection = SqlConnection.connect();
         TaiKhoanNhanKhauDAO tknkDao = new TaiKhoanNhanKhauDAO(connection);
         tknkDao.save(tknk);
 
+        // Lưu câu trả lời cho câu hỏi xác nhận
+        String cauHoi = cauhoixacnhan.getSelectionModel().getSelectedItem();
+        CauTraLoi cauTraLoi = new CauTraLoi(soCccd.getText(), cauHoi, cautraloi.getText());
+        CauTraLoiDAO cauTraLoiDAO = new CauTraLoiDAO(connection);
+        cauTraLoiDAO.save(cauTraLoi);
 
         // Thông báo đăng ký thành công
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -110,20 +146,16 @@ public class DangKyOfficalController implements Initializable {
         stage.setScene(scene);
     }
 
-
     /**
-     * Phương thức xử lý sự kiện click chuột vào button đăng ký
-     * @param e sự kiện click chuột button "Đăng ký"
+     * Phương thức kiểm tra thông tin đăng ký có chính xác hay không
+     * @param e sự kiện click chuột vào button "Tiếp tục"
+     * @throws SQLException xảy ra lỗi truy vấn dữ liệu
      */
-    public void signUpClicked (ActionEvent e) throws Exception {
+    public void tiepTucClick (ActionEvent e) throws SQLException {
+        // Kiem tra thong tin ca nhan
         if(hoTen.getText().isEmpty() || ngaySinh.getValue() == null
-                || soCccd.getText().isEmpty() || idHoKhau.getText().isEmpty()) {
-            textError.setText("Nhập đầy đủ thông tin cá nhân để được xác nhận!");
-            return;
-        }
-
-        if(tenTaiKhoan.getText().isEmpty() || matKhau.getText().isEmpty()) {
-            textError.setText("Yêu cầu nhập đầy đủ tên tài khoản và mật khẩu!");
+                || soCccd.getText().isEmpty()) {
+            loiThongTin.setText("Nhập đầy đủ thông tin cá nhân để được xác nhận!");
             return;
         }
 
@@ -131,16 +163,39 @@ public class DangKyOfficalController implements Initializable {
         TaiKhoanNhanKhauDAO tknkdao = new TaiKhoanNhanKhauDAO(connection);
         Optional<TaiKhoanNhanKhau> tknkSelect = tknkdao.get(soCccd.getText());
         if(tknkSelect.isPresent()) {
-            textError.setText("Tài khoản đã tồn tại!");
+            loiThongTin.setText("Tài khoản đã tồn tại!");
             return;
         }
 
-        // Kiem tra sai thong tin ca nhan
         if(kiemTraDangKy()) {
-            signUpSuccess(e);
+            loiThongTin.setText("");
+            thongTinTaiKhoan.setVisible(true);
         } else {
-            textError.setText("Thông tin cá nhân chưa chính xác! Vui lòng nhập lại!");
+            loiThongTin.setText("Thông tin cá nhân chưa chính xác! Vui lòng nhập lại!");
         }
+    }
+
+    /**
+     * Phương thức xử lý sự kiện click chuột vào button đăng ký
+     * @param e sự kiện click chuột button "Đăng ký"
+     */
+    public void signUpClicked (ActionEvent e) throws Exception {
+
+        if(tenTaiKhoan.getText().isEmpty() || matKhau.getText().isEmpty()) {
+            textError.setText("Yêu cầu nhập đầy đủ tên tài khoản và mật khẩu!");
+            return;
+        }
+        if(cauhoixacnhan.getSelectionModel().getSelectedItem() == null) {
+            textError.setText("Chưa chọn câu hỏi mật khẩu cấp hai!");
+            return;
+        } else {
+            if(cautraloi.getText().isEmpty()) {
+                textError.setText("Nhập câu trả lời cho câu hỏi mật khẩu cấp hai!");
+                return;
+            }
+        }
+
+        signUpSuccess(e);
     }
 
     /**

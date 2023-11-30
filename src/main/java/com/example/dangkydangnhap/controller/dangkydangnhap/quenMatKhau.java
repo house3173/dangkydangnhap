@@ -1,7 +1,9 @@
 package com.example.dangkydangnhap.controller.dangkydangnhap;
 
+import com.example.dangkydangnhap.dao.CauTraLoiDAO;
 import com.example.dangkydangnhap.dao.TaiKhoanNhanKhauDAO;
 import com.example.dangkydangnhap.database.SqlConnection;
+import com.example.dangkydangnhap.model.CauTraLoi;
 import com.example.dangkydangnhap.model.TaiKhoanNhanKhau;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,13 +47,19 @@ public class quenMatKhau implements Initializable {
     private CheckBox boxMKmoiNhapLai;
 
     @FXML
+    private Text cauhoi;
+
+    @FXML
+    private TextField cautraloi;
+
+    @FXML
     private Text errorInfo;
 
     @FXML
-    private TextField hoTenMK;
+    private Text errorPassword;
 
     @FXML
-    private TextField idHoKhauMK;
+    private TextField hoTenMK;
 
     @FXML
     private DatePicker ngaySinhMK;
@@ -60,24 +68,35 @@ public class quenMatKhau implements Initializable {
     private TextField soCccdMK;
 
     @FXML
+    private Text textError;
+
+    @FXML
     private AnchorPane vungMKmoi;
 
     @FXML
-    private Text errorPassword;
+    private AnchorPane vungXacNhan;
+
+    @FXML
+    private Text loiXacNhan;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // ngaySinhMK.setEditable(false);
+        vungXacNhan.setVisible(false);
         vungMKmoi.setVisible(false);
         soCccdMK.textProperty().addListener((observable, oldValue, newValue) -> {
             vungMKmoi.setVisible(false);
+            vungXacNhan.setVisible(false);
         });
         hoTenMK.textProperty().addListener((observable, oldValue, newValue) -> {
             vungMKmoi.setVisible(false);
-        });
-        idHoKhauMK.textProperty().addListener((observable, oldValue, newValue) -> {
-            vungMKmoi.setVisible(false);
+            vungXacNhan.setVisible(false);
         });
         ngaySinhMK.valueProperty().addListener((observable, oldValue, newValue) -> {
+            vungMKmoi.setVisible(false);
+            vungXacNhan.setVisible(false);
+        });
+        cautraloi.textProperty().addListener((observable, oldValue, newValue) -> {
             vungMKmoi.setVisible(false);
         });
 
@@ -93,11 +112,10 @@ public class quenMatKhau implements Initializable {
         String hotenDK = hoTenMK.getText();
         String ngaysinhDK = ngaySinhMK.getValue().toString();
         String socccdDK = soCccdMK.getText();
-        String idhokhauDK = idHoKhauMK.getText();
 
-        System.out.println(soCccdMK + " " + hotenDK + " " + ngaysinhDK + " " + idhokhauDK);
+        System.out.println(soCccdMK + " " + hotenDK + " " + ngaysinhDK);
 
-        return functionHelp.kiemTraThongTinDangKy(socccdDK, hotenDK, ngaysinhDK, idhokhauDK);
+        return functionHelp.kiemTraThongTinDangKy(socccdDK, hotenDK, ngaysinhDK);
     }
 
     /**
@@ -107,7 +125,7 @@ public class quenMatKhau implements Initializable {
      */
     public void tiepTucThayDoi(ActionEvent e) throws SQLException {
         if(soCccdMK.getText().isEmpty() || hoTenMK.getText().isEmpty()
-                || ngaySinhMK.getValue() == null || idHoKhauMK.getText().isEmpty()) {
+                || ngaySinhMK.getValue() == null) {
             errorInfo.setText("Yêu cầu nhập đầy đủ thông tin");
             return;
         }
@@ -121,10 +139,39 @@ public class quenMatKhau implements Initializable {
 
         if(kiemTraThongTin()) {
             errorInfo.setText("");
-            vungMKmoi.setVisible(true);
+
+            CauTraLoiDAO cauTraLoiDAO = new CauTraLoiDAO(connection);
+            Optional<CauTraLoi> cauTraLoi = cauTraLoiDAO.get(soCccdMK.getText());
+            if(cauTraLoi.isPresent()) {
+                CauTraLoi traloi = cauTraLoi.get();
+                cauhoi.setText(traloi.getCauHoi());
+            }
+            vungXacNhan.setVisible(true);
         } else {
             errorInfo.setText("Thông tin chưa chính xác");
         }
+    }
+
+    public void xacNhanTraLoi(ActionEvent event) throws SQLException {
+        if(cautraloi.getText().isEmpty()) {
+            loiXacNhan.setText("Chưa nhập câu trả lời!");
+            return;
+        }
+
+        String ctl = cautraloi.getText();
+        CauTraLoiDAO cauTraLoiDAO = new CauTraLoiDAO(connection);
+        Optional<CauTraLoi> cauTraLoi = cauTraLoiDAO.get(soCccdMK.getText());
+        if(cauTraLoi.isPresent()) {
+            CauTraLoi traloi = cauTraLoi.get();
+            if(ctl.equals(traloi.getCauTraLoi())) {
+                loiXacNhan.setText("");
+                vungMKmoi.setVisible(true);
+            } else {
+                loiXacNhan.setText("Câu trả lời chưa chính xác!");
+                return;
+            }
+        }
+
     }
 
     /**
